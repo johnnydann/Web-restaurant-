@@ -1,0 +1,586 @@
+﻿@* Home *@
+<section id="intro" class="position-relative overflow-hidden" style="background-image: url(images/banner_pizza.png); background-repeat: no-repeat; background-position: center; width: 100%; height: 898px;">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-lg-5 col-md-8">
+                <div class="banner-content position-absolute d-flex justify-content-center align-items-center mx-auto text-center">
+                    <div class="banner-text-wrapper">
+                        <h1 class="display-1 text-white text-capitalize">
+                            <span class="body-font d-block">Make Your Meal time</span>
+                            <em> best With onlyFoodie</em>
+                        </h1>
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-lg btn-light">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="trending" class="py-lg-9">
+    <div class="display-header text-center">
+        <h2 class="display-6 fst-italic m-0">What’s Trending</h2>
+        <p>These are the items that are trending recently.</p>
+    </div>
+    <div class="product-content position-relative">
+        <div class="container-lg">
+            <div class="row">
+                <div class="arrow-wrap">
+                    <div class="icon-caret-arrow left-side position-absolute d-flex align-items-center bg-gray-1 border rounded-pill justify-content-center">
+                        <svg class="caret-arrow-left" width="25" height="25">
+                            <use xlink:href="#caret-arrow-left"></use>
+                        </svg>
+                    </div>
+                    <div class="icon-caret-arrow right-side position-absolute d-flex align-items-center bg-gray-1 border rounded-pill justify-content-center">
+                        <svg class="caret-arrow-right" width="25" height="25">
+                            <use xlink:href="#caret-arrow-right"></use>
+                        </svg>
+                    </div>
+                </div>
+                <div class="swiper product-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display" class="text-dark">Pizza</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">40.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-ga.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display" class="text-dark">Pizza Gà</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">49.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-hai-san.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display" class="text-dark">Pizza Hải Sản</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">59.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-hawaii.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display"  class="text-dark">Pizza Hawaii</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">38.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-nhan-nhoi.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display"  class="text-dark">Pizza Nhân Nhồi</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">50.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-sot-pesto.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display" class="text-dark">Pizza Sốt Pesto</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">69.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-lg btn-dark">Shop All</a>
+    </div>
+</section>
+<section id="collection" class="overflow-hidden">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 image-zoom-effect">
+                <div class="collection-item position-relative mx-auto">
+                    <div class="image-holder">
+                        <img src="~/images/pizza_collection1.png" alt="product" class="img-fluid">
+                        <div class="product-info position-absolute d-flex justify-content-center align-items-center">
+                            <div class="border d-flex justify-content-center align-items-center text-center">
+                                <div class="text-wrap">
+                                    <h3 class="m-0">
+                                        <a href="#" class="text-light">Vegetarian Pizza</a>
+                                    </h3>
+                                    <div class="btn-wrap">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-link text-light">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 image-zoom-effect">
+                <div class="collection-item position-relative mx-auto">
+                    <div class="image-holder">
+                        <img src="~/images/pizza_collection2.png" alt="product" class="img-fluid">
+                    </div>
+                    <div class="product-info position-absolute d-flex justify-content-center align-items-center">
+                        <div class="border d-flex justify-content-center align-items-center text-center">
+                            <div class="text-wrap">
+                                <h3 class="m-0">
+                                    <a href="#" class="text-light">Vegetarian Pizza</a>
+                                </h3>
+                                <div class="btn-wrap">
+                                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-link text-light">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 image-zoom-effect">
+                <div class="collection-item position-relative mx-auto">
+                    <div class="image-holder">
+                        <img src="~/images/pizza_collection3.png" alt="product" class="img-fluid">
+                    </div>
+                    <div class="product-info position-absolute d-flex justify-content-center align-items-center">
+                        <div class="border d-flex justify-content-center align-items-center text-center">
+                            <div class="text-wrap">
+                                <h3 class="m-0">
+                                    <a href="#" class="text-light">Vegetarian Pizza</a>
+                                </h3>
+                                <div class="btn-wrap">
+                                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-link text-light">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="testimonials" class="position-relative py-lg-7">
+    <div class="container-lg">
+        <div class="row">
+            <div class="display-header text-center">
+                <h2 class="display-6 fst-italic">What Our Customers Says</h2>
+            </div>
+            <div class="col-lg-8 col-md-8 mx-auto">
+                <div class="icon-arrow left-side position-absolute d-flex align-items-center">
+                    <svg class="arrow-left" width="25" height="25">
+                        <use xlink:href="#arrow-left"></use>
+                    </svg>
+                </div>
+                <div class="icon-arrow right-side position-absolute d-flex align-items-center">
+                    <svg class="arrow-right" width="25" height="25">
+                        <use xlink:href="#arrow-right"></use>
+                    </svg>
+                </div>
+                <div class="swiper review-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide text-center d-flex justify-content-center">
+                            <div class="review-item">
+                                <blockquote class="fs-2">“Suspen dise tempus oncu enim pellen tesque este pretium in neque, elit morbi sagittis lorem habi mattis. A pellen tesque pretium feugiat vel morbi sagittis lorem habi tasse cursus.”</blockquote>
+                                <div class="rating">
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-empty" width="12" height="12">
+                                        <use xlink:href="#star-empty"></use>
+                                    </svg>
+                                </div>
+                                <div class="author-detail">
+                                    <div class="name text-dark text-uppercase pt-2 fw-medium">DR. Robinson hart</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide text-center d-flex justify-content-center">
+                            <div class="review-item">
+                                <blockquote class="fs-2">“A blog is a digital publication that can complement a website or exist independently. A blog may include articles, short posts, listicles, infographics, videos, and other digital content.”</blockquote>
+                                <div class="rating">
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-fill" width="12" height="12">
+                                        <use xlink:href="#star-fill"></use>
+                                    </svg>
+                                    <svg class="star star-empty" width="12" height="12">
+                                        <use xlink:href="#star-empty"></use>
+                                    </svg>
+                                </div>
+                                <div class="author-detail">
+                                    <div class="name text-dark text-uppercase pt-2 fw-medium">Jin Smith</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+</section>
+<section id="video-player" class="video overflow-hidden position-relative" style="background-image: url(images/video-item.jpg); background-repeat: no-repeat; background-position: center; background-attachment: fixed; width: 100%; height: 682px;">
+    <div class="row">
+        <div class="video-content">
+            <div class="video-bg">
+                <div class="player position-absolute d-flex justify-content-center align-items-center">
+                    <a class='youtube play-btn d-flex justify-content-center align-items-center bg-white rounded-pill' href="https://www.youtube.com/embed/2-iXtcRv5Ts">
+                        <svg class="play text-dark" width="32" height="42">
+                            <use xlink:href="#play"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="best-sells" class="py-lg-7">
+    <div class="display-header text-center">
+        <h2 class="display-6 fst-italic m-0">Best Sellers</h2>
+        <p>These are the items that are best seller.</p>
+    </div>
+    <div class="product-content position-relative">
+        <div class="container-lg">
+            <div class="row">
+                <div class="arrow-wrap">
+                    <div class="icon-caret-arrow left-side position-absolute d-flex align-items-center bg-gray-1 border rounded-pill justify-content-center">
+                        <svg class="caret-arrow-left" width="25" height="25">
+                            <use xlink:href="#caret-arrow-left"></use>
+                        </svg>
+                    </div>
+                    <div class="icon-caret-arrow right-side position-absolute d-flex align-items-center bg-gray-1 border rounded-pill justify-content-center">
+                        <svg class="caret-arrow-right" width="25" height="25">
+                            <use xlink:href="#caret-arrow-right"></use>
+                        </svg>
+                    </div>
+                </div>
+                <div class="swiper product-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-ga.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display"  class="text-dark">Rose Petal Tea</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">38.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-hai-san.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display"  class="text-dark">Mix Rosemela tea</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">60.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-hawaii.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display"  class="text-dark">Rosella Tea</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">38.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display"  class="text-dark">Spicy tea</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">50.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza-sot-pesto.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display" class="text-dark">Honey tea</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">70.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide image-zoom-effect">
+                            <div class="product-item mx-auto">
+                                <div class="image-holder mb-2">
+                                    <img src="~/images/pizza.jpg" alt="tea" class="img-fluid">
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="fst-italic m-0">
+                                        <a asp-area="Customer" asp-controller="Home" asp-action="Display" class="text-dark">Butterfly Pea Tea</a>
+                                    </h3>
+                                    <div class="product-price text-primary fw-medium">98.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-lg btn-dark">Shop All</a>
+    </div>
+</section>
+<section id="blogs" class="video overflow-hidden position-relative" style="background-image: url(images/blog-item.jpg); background-repeat: no-repeat; background-position: center; background-attachment: fixed; width: 100%; height: 682px;">
+    <div class="row">
+        <div class="post-content position-absolute d-flex justify-content-center align-items-center">
+            <div class="display-header text-center text-light">
+                <h2 class="display-6 fst-italic m-0 text-light mb-3">Read Our Tea Blogs</h2>
+                <p>Read our tea blogs to get updates and know about the trends.</p>
+                <a href="blog.html" class="btn btn-lg btn-light mt-3">Read Blog Posts</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="company-services" class="py-lg-7">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-2">
+                <div class="icon-box text-center border-top border-bottom py-3">
+                    <div class="icon-box-icon mb-1">
+                        <svg class="truck svg-primary" width="39" height="39">
+                            <use xlink:href="#truck"></use>
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <p class="fs-5">Inside City delivery within 3 days</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-2">
+                <div class="icon-box text-center border-top border-bottom py-3">
+                    <div class="icon-box-icon mb-1">
+                        <svg class="coffee svg-primary" width="39" height="39">
+                            <use xlink:href="#coffee"></use>
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <p class="fs-5">Free Samples with Every Order</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-2">
+                <div class="icon-box text-center border-top border-bottom py-3">
+                    <div class="icon-box-icon mb-1">
+                        <svg class="luggage-cart svg-primary" width="39" height="39">
+                            <use xlink:href="#luggage-cart"></use>
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <p class="fs-5">Free Shipping on Orders Above $600</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="instagram-wrap" class="py-lg-6">
+    <div class="container-lg">
+        <div class="row">
+            <h2 class="display-6 text-center fst-italic">Shop Our Insta</h2>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="image-holder position-relative">
+                    <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+                        <img src="~/images/pizza.jpg" alt="instagram" class="img-fluid">
+                        <div class="border insta-item position-absolute d-flex align-items-center justify-content-center">
+                            <svg class="insta svg-white" width="25" height="25">
+                                <use xlink:href="#insta"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="image-holder position-relative">
+                    <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+                        <img src="~/images/pizza-ga.jpg" alt="instagram" class="img-fluid">
+                        <div class="border insta-item position-absolute d-flex align-items-center justify-content-center">
+                            <svg class="insta svg-white" width="25" height="25">
+                                <use xlink:href="#insta"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="image-holder position-relative">
+                    <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+                        <img src="~/images/pizza-hawaii.jpg" alt="instagram" class="img-fluid">
+                        <div class="border insta-item position-absolute d-flex align-items-center justify-content-center">
+                            <svg class="insta svg-white" width="25" height="25">
+                                <use xlink:href="#insta"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="image-holder position-relative">
+                    <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+                        <img src="~/images/pizza-sot-pesto.jpg" alt="instagram" class="img-fluid">
+                        <div class="border insta-item position-absolute d-flex align-items-center justify-content-center">
+                            <svg class="insta svg-white" width="25" height="25">
+                                <use xlink:href="#insta"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="image-holder position-relative">
+                    <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+                        <img src="~/images/pizza-ga.jpg" alt="instagram" class="img-fluid">
+                        <div class="border insta-item position-absolute d-flex align-items-center justify-content-center">
+                            <svg class="insta svg-white" width="25" height="25">
+                                <use xlink:href="#insta"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="image-holder position-relative">
+                    <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+                        <img src="~/images/pizza-hawaii.jpg" alt="instagram" class="img-fluid">
+                        <div class="border insta-item position-absolute d-flex align-items-center justify-content-center">
+                            <svg class="insta svg-white" width="25" height="25">
+                                <use xlink:href="#insta"></use>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="~/js/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#searchInput').on('input', function () {
+                    var searchTerm = $(this).val();
+                    if (searchTerm.length > 1) {
+                        $.getJSON('@Url.Action("Suggest", "Home", new { area = "Customer" })', { term: searchTerm }, function (data) {
+                            var suggestions = data.map(function (item) {
+                                return `<li>${item}</li>`;
+                            }).join('');
+                            $('#suggestions').html(`<ul>${suggestions}</ul>`).show();
+                        });
+                    } else {
+                        $('#suggestions').hide();
+                    }
+                });
+
+                $('#suggestions').on('mouseenter', 'li', function () {
+                    $('#searchInput').val($(this).text());
+                });
+
+                $('#suggestions').on('click', 'li', function () {
+                    $('#searchInput').val($(this).text());
+                    $('#suggestions').hide();
+                    // Kích hoạt tìm kiếm tự động khi click nếu cần
+                    // $('form').submit();
+                });
+
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('#searchInput, #suggestions').length) {
+                        $('#suggestions').hide();
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('.add-to-cart-btn').click(function (event) {
+                    event.preventDefault(); // Ngăn chặn hành động mặc định của button
+                    var productId = $(this).data('product-id');
+                    var quantity = $(this).data('quantity');
+                    addToCart(productId, quantity);
+                });
+
+                function addToCart(productId, quantity) {
+                    $.ajax({
+                        url: '/ShoppingCart/AddToCart', // Đường dẫn của endpoint xử lý thêm sản phẩm vào giỏ hàng
+                        type: 'POST',
+                        data: {
+                            productId: productId,
+                            quantity: quantity
+                        },
+                        success: function (response) {
+                            // Xử lý phản hồi từ server (nếu cần)
+                        },
+                        error: function (xhr, status, error) {
+                            // Xử lý lỗi (nếu có)
+                        }
+                    });
+                }
+            });
+        </script>
+    </div>
+</section>

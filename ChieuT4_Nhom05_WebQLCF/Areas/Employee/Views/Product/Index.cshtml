@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .pagination .current-page {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .page-numbers {
+            display: inline-block;
+        }
+
+        .page-numbers button {
+            background-color: transparent;
+            border: none;
+            color: #007bff;
+        }
+
+        .page-numbers button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Products</h2>
+    <a href="~/Employee/Product/Add" class="btn btn-primary">Add Product</a>
+    <table class="table" id="productsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <div class="pagination" id="pagination">
+        <button class="btn-prev">Previous</button>
+        <div class="page-numbers"></div>
+        <button class="btn-next">Next</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tbody = document.querySelector("#productsTable tbody");
+            const paginationDiv = document.getElementById("pagination");
+
+            let currentPage = 1;
+            let totalPages = 0;
+
+            function fetchProducts(page) {
+                fetch(`/api/ProductApi/getall?pageNumber=${page}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('API response:', data); // Log dữ liệu trả về từ API
+
+                        tbody.innerHTML = ""; // Clear previous data
+
+                        if (!Array.isArray(data)) {
+                            throw new Error('API response is not an array');
+                        }
+
+                        data.forEach(product => {
+                            const row = document.createElement("tr");
+                            row.setAttribute("data-id", product.id);
+                            row.innerHTML = `
+                                <td>${product.name}</td>
+                                <td>${product.price.toFixed(2)}</td>
+                                <td>${product.description || 'N/A'}</td>
+                                <td>${product.category ? product.category.name : 'N/A'}</td>
+                                <td><img src="${product.imageUrl}" alt="${product.name}" width="50" /></td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning btn-edit" data-id="${product.id}">Edit</button>
+                                    <button class="btn btn-sm btn-danger btn-delete" data-id="${product.id}">Delete</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+
+                        // Edit button event listener
+                        document.querySelectorAll(".btn-edit").forEach(button => {
+                            button.addEventListener("click", () => {
+                                const productId = button.getAttribute("data-id");
+                                window.location.href = `/Admin/Product/Update?id=${productId}`;
+                            });
+                        });
+
+                        // Delete button event listener
+                        document.querySelectorAll(".btn-delete").forEach(button => {
+                            button.addEventListener("click", event => {
+                                const productId = event.target.getAttribute("data-id");
+                                const row = event.target.closest("tr");
+
+                                if (confirm("Are you sure you want to delete this product?")) {
+                                    fetch(`/api/ProductApi/delete/${productId}`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    })
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Delete failed');
+                                            }
+                                            row.remove();
+                                            alert("Product deleted successfully!");
+                                        })
+                                        .catch(error => {
+                                            console.error('Error deleting product:', error);
+                                            alert("Failed to delete product.");
+                                        });
+                                }
+                            });
+                        });
+
+                        // Update pagination
+                        totalPages = data.totalPages;
+                        updatePagination(totalPages);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                        alert("Failed to load products.");
+                    });
+            }
+
+            function updatePagination(totalPages) {
+                paginationDiv.innerHTML = ""; // Clear previous pagination buttons
+
+                // Add previous button
+                const prevButton = document.createElement("button");
+                prevButton.textContent = "Previous";
+                prevButton.classList.add("btn-prev");
+                prevButton.addEventListener("click", () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        fetchProducts(currentPage);
+                    }
+                });
+                paginationDiv.appendChild(prevButton);
+
+                // Add page numbers
+                const pageNumbersDiv = document.createElement("div");
+                pageNumbersDiv.classList.add("page-numbers");
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageNumberButton = document.createElement("button");
+                    pageNumberButton.textContent = i;
+                    if (i === currentPage) {
+                        pageNumberButton.classList.add("current-page");
+                    }
+                    pageNumberButton.addEventListener("click", () => {
+                        currentPage = i;
+                        fetchProducts(currentPage);
+                    });
+                    pageNumbersDiv.appendChild(pageNumberButton);
+                }
+                paginationDiv.appendChild(pageNumbersDiv);
+
+                // Add next button
+                const nextButton = document.createElement("button");
+                nextButton.textContent = "Next";
+                nextButton.classList.add("btn-next");
+                nextButton.addEventListener("click", () => {
+                    currentPage++;
+                    fetchProducts(currentPage);
+                });
+                paginationDiv.appendChild(nextButton);
+            }
+
+            // Fetch products for initial page load
+            fetchProducts(currentPage);
+        });
+    </script>
+</body>
+</html>

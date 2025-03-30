@@ -1,0 +1,81 @@
+﻿@model ChieuT4_Nhom05_WebQLCF.Models.Category
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="updateCategoryForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="CategoryId" value="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input id="Name" name="Name" class="form-control" />
+                <label asp-for="Slug" class="control-label"></label>
+                <input id="Slug" name="Slug" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="button" id="saveBtn" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/Admin/Category/IndexCategory">Back to List</a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoryId = document.getElementById("CategoryId").value;
+
+        // Fetch category details and populate form
+        fetch(`/api/CategoryApi/getById?id=${categoryId}`)
+            .then(response => response.json())
+            .then(category => {
+                document.getElementById("Name").value = category.name;
+                document.getElementById("Slug").value = category.slug;
+            })
+            .catch(error => console.error('Error fetching category:', error));
+
+        // Handle form submission
+        document.getElementById("saveBtn").addEventListener("click", async function () {
+            const name = document.getElementById("Name").value;
+            const slug = document.getElementById("Slug").value;
+
+            const category = {
+                Id: categoryId,
+                Name: name,
+                Slug: slug
+            };
+
+            try {
+                const response = await fetch(`/api/CategoryApi/update?id=${categoryId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(category)
+                });
+
+                if (response.ok) {
+                    alert('Category updated successfully!');
+                    window.location.href = '/Admin/Category/IndexCategory';
+                } else {
+                    const errorData = await response.json();
+                    alert('Error: ' + (errorData.message || 'Unable to update category'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error: Unable to update category');
+            }
+        });
+    });
+</script>

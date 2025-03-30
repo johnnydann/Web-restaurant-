@@ -1,0 +1,157 @@
+﻿@model List<ApplicationUser>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="container mt-4">
+    <h1>User Management</h1>
+
+    <div class="alert alert-success" id="apiMessage" style="display:none;"></div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- Data from API will be inserted here -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        // Load the list of users and update the table
+        function loadUsers() {
+            fetch("/api/AdminApi/getall")
+                .then(response => response.json())
+                .then(users => {
+                    if (!users || !Array.isArray(users)) {
+                        console.error("Users data is null or not an array");
+                        return;
+                    }
+                    const userTableBody = document.getElementById("userTableBody");
+                    userTableBody.innerHTML = ""; // Clear existing rows
+
+                    users.forEach(user => {
+                        const row = document.createElement("tr");
+
+                        const userIdCell = document.createElement("td");
+                        userIdCell.textContent = user.id;
+
+                        const emailCell = document.createElement("td");
+                        emailCell.textContent = user.email;
+
+                        const usernameCell = document.createElement("td");
+                        usernameCell.textContent = user.userName;
+
+                        const phoneCell = document.createElement("td");
+                        phoneCell.textContent = user.phoneNumber;
+
+                        const actionsCell = document.createElement("td");
+
+                        // Determine if the user is banned
+                        const isBanned = user.lockoutEnd != null && user.lockoutEnd > DateTimeOffset.UtcNow;
+
+                        // Ban/unban button based on the user's state
+                        const actionButton = document.createElement("button");
+                        actionButton.className = "btn";
+                        if (isBanned) {
+                            actionButton.className += " btn-success"; // Unban button
+                            actionButton.innerHTML = '<i class="fas fa-unlock"></i>';
+                            actionButton.onclick = () => unbanUser(user.id, row);
+                        } else {
+                            actionButton.className += " btn-danger"; // Ban button
+                            actionButton.innerHTML = '<i class="fas fa-lock"></i>';
+                            actionButton.onclick = () => banUser(user.id, row);
+                        }
+
+                        actionsCell.appendChild(actionButton);
+
+                        row.appendChild(userIdCell);
+                        row.appendChild(emailCell);
+                        row.appendChild(usernameCell);
+                        row.appendChild(phoneCell);
+                        row.appendChild(actionsCell);
+
+                        userTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error loading users:", error));
+        }
+
+        // Ban a user and update the button without reloading the page
+        function banUser(userId, row) {
+            fetch(`/api/AdminApi/ban/${userId}`, { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    displayMessage(data.message);
+
+                    // Change the button to "unban"
+                    const actionButton = row.querySelector("td:last-child button");
+                    actionButton.className = "btn btn-success";
+                    actionButton.innerHTML = '<i class="fas fa-unlock"></i>';
+                    actionButton.onclick = () => unbanUser(userId, row);
+                })
+                .catch(error => console.error("Error banning user:", error));
+        }
+
+        // Unban a user and update the button without reloading the page
+        function unbanUser(userId, row) {
+            fetch(`/api/AdminApi/unban/${userId}`, { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    displayMessage(data.message);
+
+                    // Change the button to "ban"
+                    const actionButton = row.querySelector("td:last-child button");
+                    actionButton.className = "btn btn-danger";
+                    actionButton.innerHTML = '<i class="fas fa-lock"></i>';
+                    actionButton.onclick = () => banUser(userId, row);
+                })
+                .catch(error => console.error("Error unbanning user:", error));
+        }
+
+        // Display a message for a short period
+        function displayMessage(message) {
+            const apiMessage = document.getElementById("apiMessage");
+            apiMessage.textContent = message;
+            apiMessage.style.display = "block";
+
+            setTimeout(() => {
+                apiMessage.style.display = "none";
+            }, 3000);
+        }
+
+        // Load users when the page is ready
+        document.addEventListener("DOMContentLoaded", loadUsers);
+    </script>
+}
+@* <nav class="navigation paging-navigation text-center padding-medium" role="navigation">
+    <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
+        <a href="#">
+            <svg class="chevron-left pe-3">
+                <use xlink:href="#chevron-left"></use>
+            </svg>
+        </a>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <a class="page-numbers @((i == Model.PageNumber) ? "current" : "")" href="@Url.Action("Index", new { page = i })">@i</a>
+            @if (i < Model.PageCount)
+            {
+                <span class="page-numbers-separator">&nbsp;</span>
+            }
+        }
+        <a href="#">
+            <svg class="chevron-right ps-3">
+                <use xlink:href="#chevron-right"></use>
+            </svg>
+        </a>
+    </div>
+</nav> *@

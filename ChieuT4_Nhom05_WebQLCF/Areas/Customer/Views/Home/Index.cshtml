@@ -1,0 +1,267 @@
+﻿@model X.PagedList.PagedList<ChieuT4_Nhom05_WebQLCF.Models.Product>
+@using X.PagedList.Mvc.Core;
+<link href="~/css/productstyle.css" rel="stylesheet" />
+
+@* Shop *@
+
+@{
+    int numQuantity = 1;
+}
+
+<style>
+    .pagination {
+        margin: 0;
+    }
+
+    .page-item {
+        list-style: none;
+    }
+
+    .page-numbers {
+        border: 1px solid #ccc;
+        margin: 0 2px;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .page-numbers.current {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 50%;
+        padding: 8px 12px;
+        font-weight: bold;
+    }
+
+        .page-numbers:hover {
+            background-color: #f0f0f0;
+        }
+
+    .page-nav {
+        border: none;
+        background: none;
+        cursor: pointer;
+        outline: none;
+        transition: color 0.3s ease;
+    }
+
+        .page-nav:hover {
+            color: #007bff;
+        }
+</style>
+
+<section class="hero-section position-relative jarallax">
+    <img src="~/images/banner_shop.jpg" alt="tea cup" class="jarallax-img">
+    <div class="hero-content position-absolute d-flex justify-content-center align-items-center text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-title text-light fst-italic">Shop</h1>
+                    <div class="breadcrumbs text-light">
+                        <span class="item">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="text-light">Home /</a>
+                        </span>
+                        <span class="item">Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<body>
+    <div class="product-collection py-lg-7">
+        <div class="container-lg">
+            <div class="row" id="productList">
+                <!-- Product items will be displayed here -->
+            </div>
+            <nav class="navigation paging-navigation text-center padding-medium" role="navigation">
+                <ul class="pagination loop-pagination justify-content-center align-items-center">
+                    <li class="page-item">
+                        <button class="btn btn-link page-nav" id="prevPage">
+                            <svg class="chevron-left pe-3">
+                                <use xlink:href="#chevron-left"></use>
+                            </svg>
+                        </button>
+                    </li>
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <li class="page-item">
+                            <button class="btn btn-link page-numbers @(i == Model.PageNumber ? "current" : "")" data-page="@i">@i</button>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <button class="btn btn-link page-nav" id="nextPage">
+                            <svg class="chevron-right ps-3">
+                                <use xlink:href="#chevron-right"></use>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let currentPage = @Model.PageNumber;
+        const totalPages = @Model.PageCount;
+
+        async function fetchProductData(pageNumber) {
+            try {
+                const response = await fetch(`/api/ProductApi/getall?pageNumber=${pageNumber}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const products = await response.json();
+                displayProductList(products);
+            } catch (error) {
+                console.error('Error fetching product data:', error);
+            }
+        }
+
+        function displayProductList(products) {
+            const productListDiv = document.getElementById('productList');
+            productListDiv.innerHTML = '';
+
+            if (products.length === 0) {
+                productListDiv.innerHTML = '<p>No products found.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.classList.add('col-lg-3', 'col-md-6', 'mb-5');
+                productItem.innerHTML = `
+                            <div class="product-item mx-auto shadow rounded bg-light">
+                                <div class="image-holder mb-3">
+                                    <img src="${product.imageUrl}" alt="${product.name}" class="img-fluid rounded" style="width: 100%; height: 200px; object-fit: cover">
+                                    <div class="overlay">
+                                        <a href="/Customer/Home/display?id=${product.id}" class="btn btn-primary">Details</a>
+                                    </div>
+                                </div>
+                                <div class="product-info text-center">
+                                    <h3 class="product-title">
+                                        <a href="/Customer/Home/display?id=${product.id}" class="text-dark">${product.name}</a>
+                                    </h3>
+                                    <div class="product-price text-primary">${product.price}</div>
+                                    <form id="addToCartForm_${product.id}" data-product-id="${product.id}" class="add-to-cart-form">
+                                        <input type="hidden" name="productId" value="${product.id}" />
+                                        <input type="hidden" name="quantity" value="1" />
+                                        <button type="submit" class="btn btn-outline-dark add-to-cart-btn">
+                                            <i class="bi-cart-fill me-1"></i> Add to cart
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>`;
+                productListDiv.appendChild(productItem);
+            });
+        }
+
+        function handlePaginationNavigation() {
+            $('.page-numbers').on('click', function () {
+                $('.page-numbers').removeClass('current');
+                $(this).addClass('current');
+
+                const page = parseInt($(this).data('page'));
+                if (page !== currentPage) {
+                    currentPage = page;
+                    fetchProductData(page);
+                }
+            });
+
+            
+        }
+
+        window.addEventListener('load', () => {
+            fetchProductData(currentPage);
+            handlePaginationNavigation();
+        });
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                var searchTerm = $(this).val();
+                if (searchTerm.length > 1) {
+                    $.getJSON('@Url.Action("Suggest", "Home", new { area = "Customer" })', { term: searchTerm }, function (data) {
+                        var suggestions = data.map(function (item) {
+                            return `<li><span>${item}</span></li>`;
+                        }).join('');
+                        $('#suggestions').html(`<ul>${suggestions}</ul>`).show();
+                    });
+                } else {
+                    $('#suggestions').hide();
+                }
+            });
+
+            $('#suggestions').on('mouseenter', 'li', function () {
+                $('#searchInput').val($(this).text());
+            });
+
+            $('#suggestions').on('click', 'li', function () {
+                $('#searchInput').val($(this).text());
+                $('#suggestions').hide();
+                // Trigger search if needed
+                // $('form').submit();
+            });
+
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#searchInput, #suggestions').length) {
+                    $('#suggestions').hide();
+                }
+            });
+        });
+
+        // Function to add product to cart via API
+        async function addToCart(productId, quantity) {
+            try {
+                const response = await fetch(`/api/ShoppingCartApi/AddToCart?productId=${productId}&quantity=${quantity}`, {
+                    method: 'POST',
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to add product to cart');
+                }
+                const data = await response.json();
+                console.log('Product added to cart:', data);
+
+                // Show success notification using Toastify
+                Toastify({
+                    text: "Product added to cart successfully!",
+                    duration: 3000, 
+                    close: true, 
+                    gravity: "top", 
+                    position: "center",
+                    backgroundColor: "green",
+                    stopOnFocus: true, // Stop when focused
+                }).showToast();
+            } catch (error) {
+                console.error('Error adding product to cart:', error);
+                // Optionally, show an error notification
+                Toastify({
+                    text: "Failed to add product to cart.",
+                    duration: 3000, 
+                    close: true,
+                    gravity: "top", 
+                    position: "center",
+                    backgroundColor: "red", 
+                    stopOnFocus: true, 
+                }).showToast();
+            }
+        }
+
+        //cho id product va so luong vao gio hang
+        $(document).on('submit', '.add-to-cart-form', function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const form = $(this);
+            const productId = form.find('input[name="productId"]').val();
+            const quantity = form.find('input[name="quantity"]').val();
+
+            addToCart(productId, quantity);
+        });
+    </script>
+
+</body>

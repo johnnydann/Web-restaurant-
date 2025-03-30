@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "IndexCategory";
+}
+
+<h1>Category</h1>
+<a href="/Admin/Category/Add" class="btn btn-primary">Add Category</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="categoryTableBody">
+        <!-- Nội dung sẽ được tải động bởi JavaScript -->
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetchCategories();
+
+        async function fetchCategories() {
+            try {
+                const response = await fetch('/api/CategoryApi/getall');
+                const categories = await response.json();
+                populateTable(categories);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+
+        function populateTable(categories) {
+            const tableBody = document.getElementById('categoryTableBody');
+            tableBody.innerHTML = '';
+
+            categories.forEach(category => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                        <td>${category.name}</td>
+                        <td>
+                            <a href="/Admin/Category/Update/${category.id}">Edit</a> |
+                            <a href="/Admin/Category/Delete/${category.id}">Delete</a>
+                        </td>
+                    `;
+                tableBody.appendChild(row);
+            });
+        }
+    });
+</script>

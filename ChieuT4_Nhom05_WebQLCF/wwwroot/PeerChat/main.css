@@ -1,0 +1,96 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Thùng chứa video */
+#videos {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #1e1e2f; /* Nền tối hiện đại */
+    padding-top: 60px; /* Để tránh trùng với phần header nếu có */
+}
+
+/* Video */
+.video-player {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px; /* Bo góc */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); /* Đổ bóng cho video */
+}
+
+/* Video nhỏ */
+.smallFrame {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    height: 160px;
+    width: 280px;
+    border-radius: 10px;
+    border: 3px solid #4a5df5; /* Màu viền nổi bật */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+/* Điều khiển */
+#controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1em;
+    padding: 10px 20px;
+    background-color: rgba(30, 30, 47, 0.8); /* Nền mờ để điều khiển nổi bật */
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.control-container {
+    background-color: #4a5df5;
+    padding: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .control-container:hover {
+        background-color: #6b84ff;
+    }
+
+    .control-container img {
+        height: 28px;
+        width: 28px;
+    }
+
+/* Nút rời khỏi */
+#leave-btn {
+    background-color: #ff4d4d;
+}
+
+    #leave-btn:hover {
+        background-color: #ff6666;
+    }
+
+/* Thiết kế responsive cho thiết bị nhỏ */
+@media screen and (max-width: 600px) {
+    .smallFrame {
+        height: 90px;
+        width: 160px;
+    }
+
+    .control-container img {
+        height: 20px;
+        width: 20px;
+    }
+}
+

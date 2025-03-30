@@ -1,0 +1,83 @@
+﻿@model X.PagedList.PagedList<ChieuT4_Nhom05_WebQLCF.Models.Order>
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "QLDH";
+}
+
+<h1>Quản lý đơn hàng</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order Dated</th>
+            <th>User Id</th>
+            <th>Product Name</th>
+            <th>Shipping Address</th>
+            <th>Notes</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => order.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => order.UserId)
+                </td>
+                <td>
+                    @if (order.OrderDetails != null)
+                    {
+                        foreach (var orderDetail in order.OrderDetails)
+                        {
+                            @orderDetail.Product.Name
+
+                            <br />
+                        }
+                    }
+                </td>
+
+               <td>
+                    @Html.DisplayFor(modelItem => order.ShippingAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => order.Notes)
+                </td>
+
+               
+
+                <td>
+                    @Html.DisplayFor(modelItem => order.TotalPrice)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@order.Id">Edit</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<nav class="navigation paging-navigation text-center padding-medium" role="navigation">
+    <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
+        <a href="#">
+            <svg class="chevron-left pe-3">
+                <use xlink:href="#chevron-left"></use>
+            </svg>
+        </a>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <a class="page-numbers @((i == Model.PageNumber) ? "current" : "")" href="@Url.Action("Index", new { page = i })">@i</a>
+            @if (i < Model.PageCount)
+            {
+                <span class="page-numbers-separator">&nbsp;</span>
+            }
+        }
+        <a href="#">
+            <svg class="chevron-right ps-3">
+                <use xlink:href="#chevron-right"></use>
+            </svg>
+        </a>
+    </div>
+</nav>

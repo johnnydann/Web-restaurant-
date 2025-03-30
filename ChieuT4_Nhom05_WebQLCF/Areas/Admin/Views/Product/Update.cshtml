@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        #productImagePreview {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>@ViewData["Title"]</h2>
+        <div id="product-details"></div>
+
+        <form id="product-form" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="productId" name="Id" />
+            <div class="form-group">
+                <label for="productName">Name</label>
+                <input type="text" id="productName" name="Name" class="form-control" />
+                <span class="text-danger" id="nameError"></span>
+            </div>
+            <div class="form-group">
+                <label for="productPrice">Price</label>
+                <input type="number" id="productPrice" name="Price" class="form-control" />
+                <span class="text-danger" id="priceError"></span>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">Description</label>
+                <textarea id="productDescription" name="Description" class="form-control"></textarea>
+                <span class="text-danger" id="descriptionError"></span>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">Category</label>
+                <select id="productCategory" name="CategoryId" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="productImage">Product Image</label>
+                <input type="file" id="productImage" name="imageFile" class="form-control" />
+                <img id="productImagePreview" alt="Product Image" style="max-width: 200px;" />
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+
+        <div>
+            <a href="Index" class="btn btn-secondary mt-3">Back to List</a>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var productId = new URLSearchParams(window.location.search).get('id');
+            fetchProductDetails(productId);
+            fetchCategories();
+            $('#product-form').submit(function (event) {
+                event.preventDefault();
+                updateProduct(productId);
+            });
+        });
+
+        // Biến global để lưu trữ dữ liệu ban đầu của sản phẩm
+        var initialProductData = null;
+
+        function fetchProductDetails(productId) {
+            $.ajax({
+                url: `/api/ProductApi/getproductbyid/${productId}`,
+                type: 'GET',
+                success: function (product) {
+                    // Lưu trữ dữ liệu ban đầu của sản phẩm
+                    initialProductData = product;
+                    // Hiển thị dữ liệu sản phẩm
+                    displayProductDetails(product);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to fetch product details:", error);
+                }
+            });
+        }
+
+        function displayProductDetails(product) {
+            $('#productId').val(product.id);
+            $('#productName').val(product.name);
+            $('#productPrice').val(product.price);
+            $('#productDescription').val(product.description);
+            $('#productCategory').val(product.categoryId);
+            $('#productImagePreview').attr('src', product.imageUrl);
+        }
+
+        function fetchCategories() {
+            $.ajax({
+                url: `/api/CategoryApi/getall`,
+                type: 'GET',
+                success: function (categories) {
+                    var options = '';
+                    categories.forEach(category => {
+                        options += `<option value="${category.id}">${category.name}</option>`;
+                    });
+                    $('#productCategory').html(options);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to fetch categories:", error);
+                }
+            });
+        }
+
+        function updateProduct(productId) {
+            var formData = new FormData(document.getElementById('product-form'));
+
+            // Kiểm tra xem dữ liệu hiện tại có thay đổi so với dữ liệu ban đầu không
+            if (JSON.stringify(initialProductData) === JSON.stringify(formDataToObject(formData))) {
+                // Nếu không có thay đổi, hiển thị thông báo và không gửi yêu cầu cập nhật
+                alert("No changes detected.");
+                return;
+            }
+
+            $.ajax({
+                url: `/api/ProductApi/update/${productId}`,
+                type: 'PUT',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    alert("Product updated successfully!");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to update product:", error);
+                    alert("Failed to update product.");
+                }
+            });
+        }
+
+        // Chuyển đổi FormData thành đối tượng JavaScript
+        function formDataToObject(formData) {
+            var obj = {};
+            formData.forEach((value, key) => {
+                obj[key] = value;
+            });
+            return obj;
+        }
+    </script>
+</body>
+</html>

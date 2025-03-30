@@ -1,0 +1,52 @@
+﻿@model Order
+
+<link href="~/css/checkoutstyle.css" rel="stylesheet" />
+
+<section class="hero-section position-relative jarallax">
+    <img src="~/images/banner_shop.jpg" alt="tea cup" class="jarallax-img">
+    <div class="hero-content position-absolute d-flex justify-content-center align-items-center text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-title text-light fst-italic">Checkout</h1>
+                    <div class="breadcrumbs text-light">
+                        <span class="item">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="text-light">Home /</a>
+                        </span>
+                        <span class="item">Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="checkout-section">
+    <div class="container">
+        <form asp-action="Checkout" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ShippingAddress" class="form-label bold-text">Address</label>
+                        <input asp-for="ShippingAddress" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Notes" class="form-label bold-text">Notes</label>
+                        <textarea asp-for="Notes" class="form-control bold-text" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hiển thị tùy chọn thanh toán -->
+            <div class="form-group">
+                <label for="paymentMethod" class="form-label bold-text">Payment methods:</label>
+                <select class="form-control" id="paymentMethod" name="PaymentMethod">
+                    <option value="Online">Online payment</option>
+                    <option value="Cash">Cash payment</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Ok</button>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,118 @@
+﻿@* _ApiLoginPartial.cshtml *@
+<ul class="nav">
+    <li class="nav-item">
+        <a href="#" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRegister" aria-controls="offcanvasRegister">Register</a>
+    </li>
+    <li class="nav-item">
+        <a href="#" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLogin" aria-controls="offcanvasLogin">Login</a>
+    </li>
+</ul>
+
+<!-- Offcanvas for Login -->
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasLogin" aria-labelledby="offcanvasLoginLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasLoginLabel">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="login-detail">
+            <div class="login-form p-0">
+                <div class="col-lg-12 mx-auto">
+                    <form id="login-form">
+                        <input type="text" name="username" placeholder="Username or Email Address *" class="mb-3 ps-3 text-input w-100">
+                        <input type="password" name="password" placeholder="Password" class="ps-3 text-input w-100">
+                        <div class="checkbox d-flex justify-content-between mt-4">
+                            <p class="checkbox-form">
+                                <label class="">
+                                    <input name="rememberme" type="checkbox" id="remember-me" value="forever"> Remember me
+                                </label>
+                            </p>
+                            <p class="lost-password">
+                                <a href="#">Forgot your password?</a>
+                            </p>
+                        </div>
+                        <div class="modal-footer mt-5 d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary w-100 mb-2" id="login-btn">Login</button>
+                            <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRegister">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Offcanvas for Register -->
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRegister" aria-labelledby="offcanvasRegisterLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRegisterLabel">Register</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="register-detail">
+            <div class="register-form p-0">
+                <div class="col-lg-12 mx-auto">
+                    <form id="register-form">
+                        <input type="text" name="username" placeholder="Username *" class="mb-3 ps-3 text-input w-100">
+                        <input type="email" name="email" placeholder="Email *" class="mb-3 ps-3 text-input w-100">
+                        <input type="password" name="password" placeholder="Password *" class="ps-3 text-input w-100">
+                        <div class="modal-footer mt-5 d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary w-100 mb-2" id="register-btn">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#login-btn').click(function () {
+                var loginData = {
+                    username: $('#login-form input[name="username"]').val(),
+                    password: $('#login-form input[name="password"]').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/AuthApi/login',
+                    contentType: 'application/json',
+                    data: JSON.stringify(loginData),
+                    success: function (response) {
+                        // Handle successful login
+                        console.log(response);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // Handle login failure
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+
+            $('#register-btn').click(function () {
+                var registerData = {
+                    username: $('#register-form input[name="username"]').val(),
+                    email: $('#register-form input[name="email"]').val(),
+                    password: $('#register-form input[name="password"]').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/AuthApi/register',
+                    contentType: 'application/json',
+                    data: JSON.stringify(registerData),
+                    success: function (response) {
+                        // Handle successful registration
+                        console.log(response);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // Handle registration failure
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

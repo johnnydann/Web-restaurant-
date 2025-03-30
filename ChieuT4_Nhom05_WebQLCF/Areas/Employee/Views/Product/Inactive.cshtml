@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inactive Products</title>
+    <!-- Include Bootstrap for styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Inactive Products</h2>
+
+        <!-- Table to display inactive products -->
+        <table class="table table-striped table-hover" id="inactive-products-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Images</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+
+    <!-- JavaScript code to interact with the API -->
+    <script type="text/javascript">
+        // Function to load inactive products from the API
+        // Function to load inactive products from the API
+        function loadInactiveProducts() {
+            $.ajax({
+                url: '/api/ProductApi/inactive',
+                type: 'GET',
+                success: function (data) {
+                    var tbody = $("#inactive-products-table tbody");
+                    tbody.empty();
+
+                    data.forEach(function (product) {
+                        var category = product.category ? product.category.name : "No Category";
+                        var row = `
+                                    <tr id="product-${product.id}">
+                                        <td>${product.name}</td>
+                                        <td>${product.price.toFixed(2)}</td>
+                                        <td>${product.description}</td>
+                                        <td>${category}</td>
+                                        <td><img src="${product.imageUrl}" alt="Product Image" style="width: 50px; height: 50px;"></td>
+                                        <td>
+                                            <button class="activate-btn btn btn-success" data-product-id="${product.id}">
+                                                Activate
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                        tbody.append(row);
+                    });
+
+                    $(".activate-btn").click(function () {
+                        var productId = $(this).data("product-id");
+                        activateProduct(productId); // Pass productId to activateProduct function
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to load inactive products:", error);
+                }
+            });
+        }
+
+        // Function to activate a product
+        function activateProduct(productId) {
+            $.ajax({
+                url: `/api/ProductApi/activate?id=${productId}`, // Pass productId to URL
+                type: 'POST',
+                success: function (data) {
+                    alert(data.message);
+
+                    // Remove the corresponding row from the table
+                    $(`#product-${productId}`).remove();
+                },
+                error: function (xhr, status, error) {
+                    alert("There was an error activating the product.");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            loadInactiveProducts();
+        });
+    </script>
+</body>
+</html>

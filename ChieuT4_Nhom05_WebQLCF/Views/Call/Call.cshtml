@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PeerChat</title>
+    <link href="~/peerchat/main.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Khu vực Video -->
+    <div id="videos">
+        <video class="video-player" id="user-1" autoplay playsinline onerror="handleVideoError('user-1')"></video>
+        <video class="video-player" id="user-2" autoplay playsinline onerror="handleVideoError('user-2')"></video>
+
+    </div>
+
+    <!-- Khu vực Điều khiển -->
+    <div id="controls">
+        <div class="control-container" id="camera-btn">
+            <img src="~/PeerChat/icons/camera.png" />
+        </div>
+        <div class="control-container" id="mic-btn">
+            <img src="~/PeerChat/icons/mic.png" />
+        </div>
+            <div class="control-container" id="leave-btn">
+                <img src="~/PeerChat/icons/phone.png" />
+            </div>
+    </div>
+
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src='~/PeerChat/main.js?v=@DateTime.Now.Ticks'></script>
+</body>
+</html>

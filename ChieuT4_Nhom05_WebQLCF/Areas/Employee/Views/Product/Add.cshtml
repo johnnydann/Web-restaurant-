@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Add Product";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>@ViewData["Title"]</h2>
+        <form id="productForm" enctype="multipart/form-data">
+            <div class="form-group">
+
+                
+
+                <label for="productName">Name product</label>
+
+                <input type="text" id="productName" name="Name" class="form-control" required />
+                <span class="text-danger" id="nameError"></span>
+            </div>
+            <div class="form-group">
+
+                
+                <label for="productPrice">Price</label>
+
+                <input type="number" id="productPrice" name="Price" class="form-control" required />
+                <span class="text-danger" id="priceError"></span>
+            </div>
+            <div class="form-group">
+
+               
+
+                <label for="productDescription">Description</label>
+
+                <textarea id="productDescription" name="Description" class="form-control"></textarea>
+                <span class="text-danger" id="descriptionError"></span>
+            </div>
+            <div class="form-group">
+
+                <label for="productCategory">Category</label>
+                <select id="productCategory" name="CategoryId" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="productImage">Image</label>
+                <input type="file" id="productImage" name="imageFile" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Add product</button>
+        </form>
+        <div>
+            <a href="/Employee" class="btn btn-secondary mt-3">Back to list</a>
+
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Tải danh mục từ API và thêm vào danh sách thả xuống
+            fetchCategories();
+
+            // Xử lý khi gửi form
+            $('#productForm').submit(function (event) {
+                event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+                addProduct();
+            });
+        });
+
+        function fetchCategories() {
+            $.ajax({
+                url: '/api/CategoryApi/getall',
+                type: 'GET',
+                success: function (categories) {
+                    var options = '';
+                    categories.forEach(category => {
+                        options += `<option value="${category.id}">${category.name}</option>`;
+                    });
+                    $('#productCategory').html(options);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to fetch categories:", error);
+                }
+            });
+        }
+
+        function addProduct() {
+            var formData = new FormData(document.getElementById('productForm'));
+
+            $.ajax({
+                url: '/api/ProductApi/add',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert("Sản phẩm đã được thêm thành công!");
+                    window.location.href = "/Employee"; // Điều hướng về trang quản trị sau khi thêm thành công
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to add product:", error);
+                    alert("Đã xảy ra lỗi khi thêm sản phẩm.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿@model ChieuT4_Nhom05_WebQLCF.Models.Category
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add</h1>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="addCategoryForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input id="Name" name="Name" class="form-control" />
+                <label asp-for="Slug" class="control-label"></label>
+                <input id="Slug" name="Slug" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="button" id="submitBtn" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/Admin/Category/IndexCategory">Back to List</a>
+</div>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", async function () {
+        const name = document.getElementById("Name").value;
+        const slug = document.getElementById("Slug").value;
+
+        const category = {
+            Name: name,
+            Slug: slug
+        };
+
+        try {
+            const response = await fetch('/api/CategoryApi/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(category)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert('Category added successfully!');
+                window.location.href = '/Admin/Category/IndexCategory';
+            } else {
+                const errorData = await response.json();
+                alert('Error: ' + (errorData.message || 'Unable to add category'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error: Unable to add category');
+        }
+    });
+</script>
